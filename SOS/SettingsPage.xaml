@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SOS.SettingsPage"
+             Title="Settings" >
+    
+    <VerticalStackLayout
+            Spacing="35"
+            Padding="50" >
+        <Label 
+            Text="Enter Number To Send SOS To"
+            VerticalOptions="Center" 
+            HorizontalOptions="CenterAndExpand"/>
+        
+        <Entry Placeholder="+919876543210" 
+               x:Name="PhoneNumber"
+               VerticalOptions="Center" 
+               HorizontalOptions="CenterAndExpand" />
+
+        <Button Text="Save"
+                x:Name="SaveSettingsButton"
+                VerticalOptions="Center" 
+                HorizontalOptions="FillAndExpand"
+                Clicked="SaveSettingsButtonClicked" />
+        
+    </VerticalStackLayout>
+</ContentPage>

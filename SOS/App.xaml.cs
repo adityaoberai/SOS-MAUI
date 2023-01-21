@@ -1,11 +1,17 @@
-﻿namespace SOS;
+﻿using SOS.Data;
+
+namespace SOS;
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
+    public static SettingsRepository SettingsRepo { get; private set; }
 
-		MainPage = new AppShell();
-	}
+    public App(SettingsRepository repo)
+    {
+        InitializeComponent();
+
+        MainPage = new AppShell();
+
+        SettingsRepo = repo;
+    }
 }

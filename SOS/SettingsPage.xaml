@@ -22,6 +22,11 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="FillAndExpand"
                 Clicked="SaveSettingsButtonClicked" />
-        
+
+        <Label Text ="SOS number missing"
+               x:Name="SavedNumberLabel"
+               VerticalOptions="Center"
+               HorizontalOptions="FillAndExpand" />
+
     </VerticalStackLayout>
 </ContentPage>

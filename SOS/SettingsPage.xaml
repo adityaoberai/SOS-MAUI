@@ -12,7 +12,7 @@
             VerticalOptions="Center" 
             HorizontalOptions="CenterAndExpand"/>
         
-        <Entry Placeholder="+919876543210" 
+        <Entry Placeholder="Format: [+][Country Code][Phone Number]" 
                x:Name="PhoneNumber"
                VerticalOptions="Center" 
                HorizontalOptions="CenterAndExpand" />

@@ -23,8 +23,8 @@
                     return new()
                 {
                     { "found", true },
-                    { "latitude", location.Latitude.ToString() },
-                    { "longitude", location.Longitude.ToString() }
+                    { "latitude", location.Latitude },
+                    { "longitude", location.Longitude }
                 };
 
                 }

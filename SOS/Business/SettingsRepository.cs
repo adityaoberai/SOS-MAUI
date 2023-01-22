@@ -1,7 +1,8 @@
-﻿using SOS.Models;
+﻿using SOS.Constants;
+using SOS.Models;
 using SQLite;
 
-namespace SOS.Data
+namespace SOS.Business
 {
     public class SettingsRepository
     {
@@ -14,7 +15,7 @@ namespace SOS.Data
                 return;
             }
 
-            conn = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            conn = new SQLiteAsyncConnection(DbConstants.DatabasePath, DbConstants.Flags);
             await conn.CreateTableAsync<SettingsData>();
         }
 

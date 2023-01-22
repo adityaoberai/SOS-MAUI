@@ -1,6 +1,6 @@
-﻿namespace SOS.Data
+﻿namespace SOS.Constants
 {
-    public static class Constants
+    public static class DbConstants
     {
         public const string DatabaseFilename = "SOSSettings.db3";
 

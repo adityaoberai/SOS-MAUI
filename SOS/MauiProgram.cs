@@ -1,4 +1,4 @@
-﻿using SOS.Data;
+﻿using SOS.Business;
 
 namespace SOS;
 
@@ -16,6 +16,7 @@ public static class MauiProgram
 			});
 
         builder.Services.AddSingleton<SettingsRepository>();
+		builder.Services.AddSingleton<LocationService>();
 
         return builder.Build();
 	}

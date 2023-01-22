@@ -50,15 +50,7 @@ public partial class MainPage : ContentPage
 
         if (accessType != NetworkAccess.Internet)
         {
-            if (Sms.Default.IsComposeSupported)
-            {
-                string[] recipients = new[] { phoneNumber };
-                string text = $"SOS ALERT:\n\nPlease get help at \n\nCoordinates: {latitude},{longitude}";
-
-                var message = new SmsMessage(text, recipients);
-
-                await Sms.Default.ComposeAsync(message);
-            }
+            await LocalSMSApp(phoneNumber, latitude, longitude);
         }
         else
         {
@@ -92,9 +84,23 @@ public partial class MainPage : ContentPage
             }
             else
             {
-                await DisplayAlert("Alert", "SOS Message Not Sent", "Ok");
+                await DisplayAlert("Alert", "SOS Message Not Sent\n\nOpening Local SMS App", "Ok");
+                await LocalSMSApp(phoneNumber, latitude, longitude);
             }
         }
         SOSButton.BackgroundColor = Colors.Red;
+    }
+
+    private async Task LocalSMSApp(string phoneNumber, string latitude, string longitude)
+    {
+        if (Sms.Default.IsComposeSupported)
+        {
+            string[] recipients = new[] { phoneNumber };
+            string text = $"SOS ALERT:\n\nPlease get help at \n\nCoordinates: {latitude},{longitude}";
+
+            var message = new SmsMessage(text, recipients);
+
+            await Sms.Default.ComposeAsync(message);
+        }
     }
 }

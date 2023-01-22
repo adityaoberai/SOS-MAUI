@@ -28,6 +28,7 @@ public partial class MainPage : ContentPage
         if (settingsDbResponse.Status == false)
         {
             await DisplayAlert("Alert", "SOS number missing", "Ok");
+            SOSButton.BackgroundColor = Colors.Red;
             return;
         }
 
@@ -40,6 +41,7 @@ public partial class MainPage : ContentPage
         if (coordinates["found"] is false)
         {
             await DisplayAlert("Error", "Not able to get location", "Ok");
+            SOSButton.BackgroundColor = Colors.Red;
             return;
         }
 

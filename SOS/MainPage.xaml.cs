@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SOS.Helpers;
+using SOS.Constants;
 using SOS.Models;
 
 namespace SOS;

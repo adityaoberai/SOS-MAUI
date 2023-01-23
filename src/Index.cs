@@ -18,31 +18,17 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
         var latitude = payload["latitude"];
         var longitude = payload["longitude"];
 
-        var radarEndpoint = new Uri($"https://api.radar.io/v1/geocode/reverse?coordinates={latitude},{longitude}");
-
-        HttpClient client = new HttpClient();
-        client.BaseAddress = radarEndpoint;
-        client.DefaultRequestHeaders.Add("Authorization", req.Variables["RADAR_SECRET"]);
-
-        var radarApiResponse = await client.GetAsync(radarEndpoint);
-        var radarApiResponseMessage = await radarApiResponse.Content.ReadAsStringAsync();
-        var location = JsonConvert.DeserializeObject<RadarApiResponse>(radarApiResponseMessage);
+        var location = await ReverseGeocodeLocation(latitude, longitude, req.Variables["RADAR_SECRET"]);
 
         if (location != null)
         {
-            TwilioClient.Init(req.Variables["TWILIO_ACCOUNT_SID"], req.Variables["TWILIO_AUTH_TOKEN"]);
+            var message = SendSOSMessage(req.Variables["TWILIO_ACCOUNT_SID"], req.Variables["TWILIO_AUTH_TOKEN"], phoneNumber, req.Variables["TWILIO_PHONE_NUMBER"], location);
 
-            var message = MessageResource.Create(
-                to: new PhoneNumber(phoneNumber),
-                from: new PhoneNumber(req.Variables["TWILIO_PHONE_NUMBER"]),
-                body: $"SOS ALERT:\n\nPlease get help at \n\nCoordinates: {latitude},{longitude}\nPossible Location: {location?.Addresses[0]?.AddressLabel}\n{location?.Addresses[0]?.FormattedAddress}"
-            );
+            Console.WriteLine($"Radar response:\n\n{JsonConvert.SerializeObject(location, Formatting.Indented)}\n\n Twilio response:\n\n{JsonConvert.SerializeObject(message, Formatting.Indented)}");
 
             return res.Json(new()
             {
-                { "sos", true },
-                { "radar", location },
-                { "twilio", message }
+                { "sos", true }
             });
         }
 
@@ -59,4 +45,29 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
             { "sos", false }
         });
     }
+}
+
+public async Task<RadarApiResponse> ReverseGeocodeLocation(string latitude, string longitude, string radarSecret)
+{
+    var radarEndpoint = new Uri($"https://api.radar.io/v1/geocode/reverse?coordinates={latitude},{longitude}");
+
+    HttpClient client = new HttpClient();
+    client.BaseAddress = radarEndpoint;
+    client.DefaultRequestHeaders.Add("Authorization", radarSecret);
+
+    var radarApiResponse = await client.GetAsync(radarEndpoint);
+    var radarApiResponseMessage = await radarApiResponse.Content.ReadAsStringAsync();
+
+    return JsonConvert.DeserializeObject<RadarApiResponse>(radarApiResponseMessage);
+}
+
+public async Task<MessageResource> SendSOSMessage(string twilioAccountSid, string twilioAuthToken, string toPhoneNumber, string twilioPhoneNumber, RadarApiResponse location)
+{
+    TwilioClient.Init(twilioAccountSid, twilioAuthToken);
+
+    return MessageResource.Create(
+        to: new PhoneNumber(toPhoneNumber),
+        from: new PhoneNumber(twilioPhoneNumber),
+        body: $"SOS ALERT:\n\nPlease get help at \n\nCoordinates: {location?.Addresses[0]?.Latitude},{location?.Addresses[0]?.Longitude}\nPossible Location: {location?.Addresses[0]?.AddressLabel}\n{location?.Addresses[0]?.FormattedAddress}"
+    );
 }

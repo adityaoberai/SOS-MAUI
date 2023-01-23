@@ -12,6 +12,11 @@
 
 * The [`appwrite-function`](https://github.com/adityaoberai/SOS-MAUI/tree/appwrite-function) branch contains the **Appwrite Function** that reverse geocodes the coordinates to get the address from the **Radar Geocoding API** and uses **Twilio Programmable Message** to send an SOS message to predecided number.   
 
+
+## Demo
+
+https://user-images.githubusercontent.com/31401437/214066632-527eb619-b7f4-44e3-b0cc-c7b0e163f513.mp4
+
 ## Steps To Setup
 
 ### For SOS Appwrite Function
@@ -48,10 +53,6 @@
   }
   ```
 * Build your app and deploy it to your preferred mobile platform ([Reference](https://learn.microsoft.com/en-us/dotnet/maui/get-started/first-app?view=net-maui-6.0&tabs=vswin&pivots=devices-android))
-
-## Demo
-
-https://user-images.githubusercontent.com/31401437/214029495-2fcddc9a-a88f-44f1-a676-bbb80d2ef9a9.mp4
 
 ## Attribution
 

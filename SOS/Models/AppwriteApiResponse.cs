@@ -3,6 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace SOS.Models
 {
+    public class AppwriteResponseData
+    {
+        [JsonProperty("sos")]
+        public bool Sos { get; set; }
+    }
+
     public class AppwriteApiResponse
     {
         [JsonProperty("$id")]

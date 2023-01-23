@@ -77,10 +77,10 @@ public partial class MainPage : ContentPage
 
             var sosResponse = await client.PostAsync(endpoint, jsonContent);
             var sosResponseContent = await sosResponse.Content.ReadAsStringAsync();
-            var sosResponseData = JsonConvert.DeserializeObject<AppwriteApiResponse>(sosResponseContent);
+            var sosResponseObject = JsonConvert.DeserializeObject<AppwriteApiResponse>(sosResponseContent); // Complete function response from Appwrite
+            var sosResponseData = JsonConvert.DeserializeObject<AppwriteResponseData>(sosResponseObject.Response); // Data returned from function
 
-            var appwriteFunctionResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(sosResponseData.Response);
-            if (Convert.ToBoolean(appwriteFunctionResponse["sos"]))
+            if (sosResponseData.Sos)
             {
                 await DisplayAlert("Alert", $"Sent SOS Request to {settings.PhoneNumber}", "Ok");
             }

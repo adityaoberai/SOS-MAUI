@@ -52,3 +52,7 @@
 ## Demo
 
 https://user-images.githubusercontent.com/31401437/214029495-2fcddc9a-a88f-44f1-a676-bbb80d2ef9a9.mp4
+
+## Attribution
+
+Thanks to Freepik for the [menu](https://www.flaticon.com/free-icon/menu_2976215), [settings](https://www.flaticon.com/free-icon/setting_2040504), and [sos](https://www.flaticon.com/free-icon/sos_2133802) icons used in the flyout menu in the app

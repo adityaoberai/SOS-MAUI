@@ -1,39 +1,47 @@
-# SOS-Function (WIP)
-
-Welcome to the documentation of this function 👋 We strongly recommend keeping this file in sync with your function's logic to make sure anyone can easily understand your function in the future. If you don't need documentation, you can remove this file.
+# SOS-Function
 
 ## 🤖 Documentation
 
-Simple function similar to typical "hello world" example, but instead, we return a simple JSON that tells everyone how awesome developers are.
-
-<!-- Update with your description, for example 'Create Stripe payment and return payment URL' -->
+Reverse geolocate the inputted coordinates using [Radar](https://radar.com) and sends SOS message with those details to the inputted phone number via [Twilio](https://twilio.com)
 
 _Example input:_
 
 ```json
 {
-      "latitude": "40.70390",
-      "longitude": "-73.98670",
-      "phoneNumber": "+918439056262"
+    "latitude": "40.70390",
+    "longitude": "-73.98670",
+    "phoneNumber": "+919876543210"
 }
 ```
 
-<!-- If input is expected, add example -->
-
-_Example output:_
-
-<!-- Update with your expected output -->
+_Example success output:_
 
 ```json
 {
- "areDevelopersAwesome": true
+    "sos": true
 }
 ```
 
+_Example failure output:_
+
+```json
+{
+    "sos": false
+}
+```
+
+> ℹ️ _Error logs are shown as console output on the Appwrite Function's console._
+
 ## 📝 Environment Variables
 
-This cloud function does not need any environment variables by default.
-<!-- Add your custom environment variables -->
+Go to Settings tab of your Appwrite Function and add the following environment variables:
+
+- `TWILIO_ACCOUNT_SID`: Twilio Account SID
+- `TWILIO_AUTH_TOKEN`: Twilio Auth Token
+- `TWILIO_PHONE_NUMBER`: Twilio Phone Number to make the call from
+- `RADAR_SECRET`: Radar API Key
+
+> ℹ️ _The Twilio Account SID and Auth Token can be obtained from your Twilio console. You can purchase a Twilio phone number using [this guide](https://support.twilio.com/hc/en-us/articles/223135247-How-to-Search-for-and-Buy-a-Twilio-Phone-Number-from-Console). Radar's API key can be obtained from their Dashboard_
 
 ## 🚀 Deployment
 

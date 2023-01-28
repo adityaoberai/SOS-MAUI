@@ -24,7 +24,9 @@ public async Task<RuntimeResponse> Main(RuntimeRequest req, RuntimeResponse res)
         {
             var message = SendSOSMessage(req.Variables["TWILIO_ACCOUNT_SID"], req.Variables["TWILIO_AUTH_TOKEN"], phoneNumber, req.Variables["TWILIO_PHONE_NUMBER"], location);
 
-            Console.WriteLine($"Radar response:\n\n{JsonConvert.SerializeObject(location, Formatting.Indented)}\n\n Twilio response:\n\n{JsonConvert.SerializeObject(message, Formatting.Indented)}");
+            var call = SendSOSCall(req.Variables["TWILIO_ACCOUNT_SID"], req.Variables["TWILIO_AUTH_TOKEN"], phoneNumber, req.Variables["TWILIO_PHONE_NUMBER"], location);
+
+            Console.WriteLine($"Radar response:\n\n{JsonConvert.SerializeObject(location, Formatting.Indented)}\n\n Twilio SMS response:\n\n{JsonConvert.SerializeObject(message, Formatting.Indented)}\n\n Twilio Call response:\n\n{JsonConvert.SerializeObject(call, Formatting.Indented)}");
 
             return res.Json(new()
             {
@@ -61,7 +63,7 @@ public async Task<RadarApiResponse> ReverseGeocodeLocation(string latitude, stri
     return JsonConvert.DeserializeObject<RadarApiResponse>(radarApiResponseMessage);
 }
 
-public async Task<MessageResource> SendSOSMessage(string twilioAccountSid, string twilioAuthToken, string toPhoneNumber, string twilioPhoneNumber, RadarApiResponse location)
+public MessageResource SendSOSMessage(string twilioAccountSid, string twilioAuthToken, string toPhoneNumber, string twilioPhoneNumber, RadarApiResponse location)
 {
     TwilioClient.Init(twilioAccountSid, twilioAuthToken);
 
@@ -69,5 +71,16 @@ public async Task<MessageResource> SendSOSMessage(string twilioAccountSid, strin
         to: new PhoneNumber(toPhoneNumber),
         from: new PhoneNumber(twilioPhoneNumber),
         body: $"SOS ALERT:\n\nPlease get help at \n\nCoordinates: {location?.Addresses[0]?.Latitude},{location?.Addresses[0]?.Longitude}\nPossible Location: {location?.Addresses[0]?.AddressLabel}\n{location?.Addresses[0]?.FormattedAddress}"
+    );
+}
+
+public CallResource SendSOSCall(string twilioAccountSid, string twilioAuthToken, string toPhoneNumber, string twilioPhoneNumber, RadarApiResponse location)
+{
+    TwilioClient.Init(twilioAccountSid, twilioAuthToken);
+
+    return CallResource.Create(
+        to: new PhoneNumber(toPhoneNumber),
+        from: new PhoneNumber(twilioPhoneNumber),
+        twiml: new Twiml($"<Response><Say>SOS Alert. Please get help at {location?.Addresses[0]?.AddressLabel}{location?.Addresses[0]?.FormattedAddress}. Check your SMS once for coordinates.</Say></Response>")
     );
 }

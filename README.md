@@ -18,11 +18,11 @@
 
 * [Setup an Appwrite instance](https://appwrite.io/docs/installation), create a new admin account and a new project
   * Enable the **.NET 6.0 runtime for Appwrite Functions** (check the note below)
-  * Create an API Key with the `execution.write` scope enabled
 * [Install the Appwrite CLI](https://appwrite.io/docs/command-line#installation) and login with your Appwrite credentials
 * Create an account on [Twilio](https://twilio.com), obtain your Twilio Account SID and Auth Token from your Twilio console, and await a Phone Number (using this [guide](https://support.twilio.com/hc/en-us/articles/223135247-How-to-Search-for-and-Buy-a-Twilio-Phone-Number-from-Console))
 * Create an account on [Radar](https://radar.com) and grab an API key (*Test secret(server) should be fine*)
 * Visit the SOS Appwrite Function Readme in the [`appwrite-function`](https://github.com/adityaoberai/SOS-MAUI/tree/appwrite-function) branch for more details on setting up and deploying the function
+  * Visit the SOS Function's Settings page and add **Execute Access** for `any` role
 
 > Note: In order to enable the .NET runtime for Appwrite Functions, you need to update the `.env` file in the Appwrite installation folder. Find the file and add `dotnet-6.0` to the comma-separated list in the environment variable `_APP_FUNCTIONS_RUNTIMES`. This will make the .NET runtime available in Appwrite Functions. You can then load the updated configuration using the `docker-compose up -d` command.
 
@@ -40,10 +40,9 @@
   {
       public static class AppwriteConstants
       {
-          public const string AppwriteUrl = "<Enter URL of Appwrite instance>"; // Enter just the URL without the functions endpoint (e.g.: https://appwrite.oberai.dev or http://localhost)
+          public const string AppwriteUrl = "<Enter Appwrite API Endpoint>";
           public const string ProjectId = "<Enter Appwrite Project Id>";
           public const string FunctionId = "<Enter Appwrite Function Id>";
-          public const string ApiKey = "<Enter Appwrite API Key>";
       }
   }
   ```

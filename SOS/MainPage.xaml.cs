@@ -56,13 +56,12 @@ public partial class MainPage : ContentPage
         }
         else
         {
-            var endpoint = $"/v1/functions/{AppwriteConstants.FunctionId}/executions";
+            var endpoint = $"/functions/{AppwriteConstants.FunctionId}/executions";
+            var uri = new Uri(AppwriteConstants.AppwriteUrl + endpoint);
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(AppwriteConstants.AppwriteUrl);
             client.DefaultRequestHeaders.Add("X-Appwrite-Response-Format", "1.0.0");
             client.DefaultRequestHeaders.Add("X-Appwrite-Project", AppwriteConstants.ProjectId);
-            client.DefaultRequestHeaders.Add("X-Appwrite-Key", AppwriteConstants.ApiKey);
 
             Dictionary<string, string> requestData = new Dictionary<string, string>();
             requestData.Add("phoneNumber", settings.PhoneNumber);
@@ -75,7 +74,7 @@ public partial class MainPage : ContentPage
             };
             var jsonContent = new StringContent(JsonConvert.SerializeObject(appwriteRequestInput), System.Text.Encoding.UTF8, "application/json");
 
-            var sosResponse = await client.PostAsync(endpoint, jsonContent);
+            var sosResponse = await client.PostAsync(uri, jsonContent);
             var sosResponseContent = await sosResponse.Content.ReadAsStringAsync();
             var sosResponseObject = JsonConvert.DeserializeObject<AppwriteApiResponse>(sosResponseContent); // Complete function response from Appwrite
             var sosResponseData = JsonConvert.DeserializeObject<AppwriteResponseData>(sosResponseObject.Response); // Data returned from function
